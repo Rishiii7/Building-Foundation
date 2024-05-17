@@ -41,9 +41,137 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const fs = require('fs');
+  const path = require('path')
   
   const app = express();
+
+  const FILE_PATH = path.join(__dirname, './todos.json');
   
+  // app.listen(3000, () => {
+  //   console.log('Server is running on port 3000');
+  // });
   app.use(bodyParser.json());
+
+  // POST Method
+  app.post('/todos', (req, res) => {
+    const todos = req.body;
+    const todosId = Math.floor(Math.random() * 1000);
+    todos.id = todosId;
+
+    // console.log(todosId);
+    // console.log(todo);
+    // console.log(typeof todo);
+
+    fs.readFile('todos.json', 'utf-8', (err, data ) => {
+      if (err) {
+        res.status(404).send("File not found");
+      }
+      const todosList = JSON.parse(data);
+      todosList.push(todos);
+      fs.writeFile('todos.json', JSON.stringify(todosList), (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Error writing to file");
+        }
+        res.status(201).json(todos);
+      });
+    });
+  })
   
   module.exports = app;
+
+  // GET Method
+  
+  app.get('/todos', (req, res) => {
+    fs.readFile("todos.json", "utf8", function(err, data) {
+      if (err) throw err;
+      res.json(JSON.parse(data));
+    });
+  });
+
+
+  // GET/:id
+  app.get('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    fs.readFile(FILE_PATH, 'utf-8', (err, data) => {
+      if (err) {
+        res.status(404).send("File not found");
+      }
+      const todosList = JSON.parse(data);
+      // console.log(typeof id);
+      // console.log(typeof todosList[0].id);
+      const todo = todosList.filter(todo => todo.id === id);
+      if(todo.length === 0) {
+        res.status(404).send("Todo not found");
+      }
+      else{
+        // console.log(todo);
+        // console.log(todo.id);
+        res.status(200).json(todo[0]);
+      }
+    })
+  })
+
+  // PUT/:id
+  app.put('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    fs.readFile(FILE_PATH, 'utf-8', (err, data) => {
+      if (err) {
+        res.status(404).send("File not found");
+      }
+      const todosList = JSON.parse(data);
+      // console.log(typeof id);
+      // console.log(typeof todosList[0].id);
+      for(let i=0; i<todosList.length; i++) {
+        if(todosList[i].id === id) {
+          todosList[i].completed = true;
+          break;
+        }
+      }
+      fs.writeFile(FILE_PATH, JSON.stringify(todosList), (err) => {
+        if (err) {
+          res.status(404).send("File not found");
+        }
+      })
+      
+    })
+
+    res.status(200).send("Done !");
+
+  });
+
+  //DELETE/:id
+  app.delete('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    fs.readFile(FILE_PATH, 'utf-8', (err, data) => {
+      if (err) {
+        res.status(404).send("File not found");
+      }
+      const todosList = JSON.parse(data);
+
+      const todo = todosList.filter(todo => todo.id === id);
+      if(todo.length == 0) {
+        res.status(404).send("Todo not found");
+      }
+      // console.log(typeof id);
+      // console.log(typeof todosList[0].id);
+      for(let i=0; i<todosList.length; i++){
+        if(todosList[i].id === id) {
+          todosList.splice(i, 1);
+          break;
+        }
+      }
+
+      // console.log(todosList);
+
+      fs.writeFile(FILE_PATH, JSON.stringify(todosList), (err) => {
+        if (err) {
+          res.status(404).send("Cannot write to the file");
+        }
+      })
+
+      res.status(200).send("Delete the item")
+    })
+  })
