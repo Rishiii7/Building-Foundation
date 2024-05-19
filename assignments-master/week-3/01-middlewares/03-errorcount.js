@@ -23,4 +23,16 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+app.use((err,req,res,next) => {
+  errorCount ++;
+  res.status(404).json({
+    error: err.message,
+    count : errorCount
+  });
+});
+
 module.exports = app;
+
+// app.listen(3000, () => {
+//   console.log('Server is listening on port 3000');
+// });
