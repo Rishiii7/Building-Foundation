@@ -4,6 +4,12 @@ const request = require('supertest');
 const assert = require('assert');
 describe('GET /user', function () {
   const userId = 'testId'
+
+  // closing the setTimeInterval after all test cases are done
+  afterAll (() => {
+    app.closeServer();
+  });
+
   it('One request responds back correctly', function(done) {
     request(app)
       .get('/user')
