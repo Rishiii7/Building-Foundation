@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DOM</title>
+    </head>
+    <body>
+        <input oninput="debounceSum()"  type="text" id="firstNumber" placeholder="first Number"> <br><br>
+        <input oninput="debounceSum()" type="text" id="secondNumber" placeholder="second Number"> <br><br>
+        <button onclick="CalculateSumPost()">Calculate sum</button>
+        <div>
+            <p id="result"></p>
+        </div>
+        <div>
+            <p id="resultPost"></p>
+        </div>
+
+        <script src="scripts/script.js"></script>
+    </body>
+</html>
