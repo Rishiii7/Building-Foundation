@@ -1,0 +1,15 @@
+.todo-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap : 10px;
+    border: 2px solid #d2c9d7;
+    padding: 20px;
+    overflow-y: scroll;
+    width: 300px;
+    height: 300px;
+}
+
+.todo-list::-webkit-scrollbar {
+    display: none;
+}

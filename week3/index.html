@@ -1,0 +1,19 @@
+<!-- Create a simple Hello world html page  -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My First HTML Page</title>
+    </head>
+    <body>
+        <script>
+            async function getPersonData(){
+                const res = await fetch('https://fakerapi.it/api/v1/persons');
+                const res1 = await res.json();
+                console.log(res1);
+            }
+        </script>
+        <div style="display: flex;">
+            <button onclick="getPersonData()">Get Person Data</button>
+        </div>
+    </body>
+</html>
