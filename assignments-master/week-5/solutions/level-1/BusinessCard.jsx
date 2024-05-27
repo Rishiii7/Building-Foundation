@@ -16,11 +16,11 @@ export function BusinessCard(props) {
             LinkedIn
           </a>
           <br />
-          <a href={props.twitter} target="_blank" rel="noopener noreferrer" style={styles.link}>
+          {props.twitter && (<a href={props.twitter} target="_blank" rel="noopener noreferrer" style={styles.link}>
             Twitter
-          </a>
+          </a>)}
           {props.otherSocialMedia && (
-            <a href={props.otherSocialMedia} target="_blank" rel="noopener noreferrer" style={styles.link}>
+            <a href={props.otherSocialMedia.url} target="_blank" rel="noopener noreferrer" style={styles.link}>
               {props.otherSocialMedia.label}
             </a>
           )}
