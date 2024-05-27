@@ -55,3 +55,25 @@
   margin: 2em;
   box-shadow: .5em .5em #e0dddd;
 }
+
+
+.sum-of-n{
+  padding: 1px;
+  font-family: auto;
+  color: #fff;
+  border: 2px;
+  border-radius: 100px;
+  background-color: #646cff;
+  margin: 2em;
+  background: linear-gradient(
+        45deg,
+        hsl(197, 93%, 52%) 38%,
+        hsl(193, 88%, 72%)
+    );
+}
+
+span{
+  color: #fff;
+  /* background-color: #0ba57a; */
+  border-radius: 100%;
+}
