@@ -1,41 +1,52 @@
 import { useState } from 'react'
 import './App.css'
-import {RecoilRoot, useRecoilValue, useRecoilState} from 'recoil'
+import {RecoilRoot, useRecoilValue, useRecoilStateLoadable, useRecoilValueLoadable} from 'recoil'
 import { todoAtomFamily } from './atoms'
 import { useEffect } from 'react'
 import axios from'axios'
+import { Suspense } from 'react'
 
 function App() {
 
   return (
     <>
+    
       <RecoilRoot>
-        <Todo id = {1} />
-        <Todo id = {1} />
-        <Todo id = {2} />
-        <Todo id = {2} />
-        <Todo id = {2} />
-
+        <Suspense fallback={"loading ..."}>
+          <TodoContainer />
+        </Suspense>
       </RecoilRoot>
       
     </>
   )
 }
 
-const Todo = ({id}) => {
-  const [todo, setTodo] = useRecoilState(todoAtomFamily(id));
+const TodoContainer = () => {
+  return (
+    <>
+      <Todo id={1} />
+      <Todo id={1} />
+      <Todo id={2} />
+      <Todo id={2} />
+      <Todo id={3} />
+    </>
+  )
+}
 
-  if(!todo){
-    return <div>Loading...</div>;
+const Todo = ({id}) => {
+  const todo = useRecoilValueLoadable(todoAtomFamily(id));
+
+  if(todo.state === 'loading'){
+    return <div>loading ...</div>
   }
 
   // console.log(`in the todo component ${todo}`);
   return (
     <>
       <div key={id} >
-        {todo.title}
+        {todo.contents.title}
         <br />
-        {todo.description}
+        {todo.contents.description}
         <br ></br>
       </div>
     </>

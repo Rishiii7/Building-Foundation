@@ -8,6 +8,7 @@ export const todoAtomFamily = atomFamily({
     default: selectorFamily({
         key: 'todoSelectorFamily',
         get: (id) => async () => {
+            await new Promise(r => setTimeout(r, 5000));
             const todo = await axios.get(`https://sum-server.100xdevs.com/todo?id=${id}`);
             // console.log(todo)
             return todo.data.todo;
