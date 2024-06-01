@@ -1,13 +1,18 @@
 import {atom, selector, atomFamily, selectorFamily} from 'recoil'
 import { TODOS } from './todos';
+import axios from 'axios'
 
 
 export const todoAtomFamily = atomFamily({
     key: 'todoAtomFamily',
-    default: (id) => {
-        console.log(id);
-        return TODOS.find( x => x.id === id);
-    }
+    default: selectorFamily({
+        key: 'todoSelectorFamily',
+        get: (id) => async () => {
+            const todo = await axios.get(`https://sum-server.100xdevs.com/todo?id=${id}`);
+            // console.log(todo)
+            return todo.data.todo;
+        }
+    })
 });
 
 

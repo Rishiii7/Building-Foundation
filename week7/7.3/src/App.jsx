@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import './App.css'
-import {RecoilRoot, useRecoilValue} from 'recoil'
+import {RecoilRoot, useRecoilValue, useRecoilState} from 'recoil'
 import { todoAtomFamily } from './atoms'
 import { useEffect } from 'react'
+import axios from'axios'
 
 function App() {
 
@@ -22,7 +23,13 @@ function App() {
 }
 
 const Todo = ({id}) => {
-  const todo = useRecoilValue(todoAtomFamily(id));
+  const [todo, setTodo] = useRecoilState(todoAtomFamily(id));
+
+  if(!todo){
+    return <div>Loading...</div>;
+  }
+
+  // console.log(`in the todo component ${todo}`);
   return (
     <>
       <div key={id} >
