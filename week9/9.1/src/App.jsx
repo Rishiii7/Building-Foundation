@@ -1,81 +1,66 @@
 import { memo, useEffect, useState } from 'react'
 import './App.css'
 import { CreateConnection } from './component/Chat';
+import axios from 'axios'
+import useSWR from 'swr'
+import { Loading } from './component/Loading';
+
+
 
 function App() {
+
+  const fetcher = async function(url) {
+    const resp = await axios.get(url);
+    return resp.data;
+  };
+
+  const { data, error, isLoading } = useSWR('https://sum-server.100xdevs.com/todos', fetcher)
+  console.log(data);
+
+  if(error){
+    return <div>Failed to load page</div>
+  }
+  if (isLoading) {
+    return <Loading />
+  }
+
   return (
     <>
-      <ChatComponent></ChatComponent>
+      {data.todos.map( (todo, ind) => <Todo todo={todo} key={ind}/>)}
     </>
   )
 }
 
-const ChatComponent = memo(() => {
-  const [roomId, setRoomId] = useState('general');
-  const [show, setShow] = useState(false);
+const Todo = ({todo, ind}) => {
   return (
     <>
-      <div className='flex h-screen justify-center bg-zinc-400'>
-        <div className='flex flex-col justify-center'>
-           <div className='flex flex-col items-center text-white'>
-            <label>
-                Choose the chat room : { ' ' }
-                <select className='rounded-lg text-center p-2 bg-zinc-800 text-white'
-                value={roomId} onChange={ e => setRoomId(e.target.value)}>
-                  <option value={"general"}>general</option>
-                  <option value={"travel"}>travel</option>
-                  <option value={"music"}>music</option>
-                </select>
-            </label>
-           </div>
-
-          <div className='flex flex-col pt-3 items-center'>
-            <button onClick={ () => setShow(!show)}
-                className=' w-32  flex justify-center bg-zinc-800 text-white rounded-lg p-2'
-                >
-                  {show ? 'Close Chat' : 'Open Chat'}
-            </button>
-          </div>
-          <div className='flex flex-col justify-center pt-3'>
-            {show && <hr />}
-            {show && <ChatRoom roomId={roomId} />}
-
-          </div>
-        </div>
-        
+      <div key={ind}>
+        <h3>{todo.title}</h3>
+        <br ></br>
+        <p>{todo.description}</p>
       </div>
     </>
   )
-});
+}
 
-const ChatRoom = memo( ({roomId}) => {
-  const [serverUrl, setServerUrl] = useState('http://localhost:3000');
+const useFetchTodo = () => {
+  const [todos, setTodos] = useState([]);
 
-  useEffect( () => {
-    const connection = CreateConnection(serverUrl, roomId);
-    connection.connect();
+  useEffect(  () => {
+    const fetchData = async () =>{
+      const resp = await axios.get('https://sum-server.100xdevs.com/todos');
+      setTodos(resp.data.todos);
+    }
+
+    const time = setInterval( ()=> fetchData(), 5000);
 
     return () => {
-      connection.disconnect();
+      console.log("unmounted");
+      clearInterval(time);
     }
-  }, [roomId, serverUrl]);
+  }, []) ;
 
-  return(
-    <>
-      <div className='pt-3'>
-        <div>
-          Server URL : <input value={serverUrl} onChange={ e=> setServerUrl(e.target.value)}
-          className='p-3 text-center rounded-lg bg-zinc-800 text-white'
-          ></input>
-        </div>
-        <div className='pt-3 text-center'>
-          Welcone to {roomId} room !
-        </div>
-      </div>
-    </>
-  )
-});
-
-
+  return todos;
+}
 
 export default App
