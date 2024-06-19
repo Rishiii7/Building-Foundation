@@ -14,7 +14,7 @@ function App() {
     return resp.data;
   };
 
-  const { data, error, isLoading } = useSWR('https://sum-server.100xdevs.com/todos', fetcher)
+  const { data, error, isLoading } = useSWR('https://sum-server.100xdevs.com/todos', fetcher);
   console.log(data);
 
   if(error){
