@@ -18,14 +18,17 @@ model User {
   id Int @id @default(autoincrement())
   username String @unique
   email String @unique
+  password String
   firstName String?
-  lastName String
+  lastName String?
+  todo Todo[]
 }
 
 model Todo {
   id Int @id @default(autoincrement())
   title String
   description String?
-  done Boolean
+  done Boolean @default(false)
   userId Int
+  user User @relation(fields: [userId], references: [id])
 }
