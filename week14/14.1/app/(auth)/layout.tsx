@@ -26,20 +26,22 @@ export default function ({children} : {children: React.ReactNode}) {
                             d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
                             data-original="#000000" 
                         />
-                    </svg>
+                    </svg> 
                 </div>
 
             </div> */}
+            
             <div className="bg-indigo-600 rounded-md my-2 mx-6 ">
                 <div className="max-w-screen-xl mx-auto px-4 py-3 items-center gap-x-4 justify-center text-white sm:flex md:px-8">
                     <p className="py-2 font-medium">
                         We just launched our new product! you can check out all features now.
                     </p>
-                    <a href="javascript:void(0)" className="flex-none inline-block w-full mt-3 py-2 px-3 text-center text-indigo-600 font-medium bg-white duration-150 hover:bg-gray-100 active:bg-gray-200 rounded-lg sm:w-auto sm:mt-0 sm:text-sm">
+                    <a href="#" className="flex-none inline-block w-full mt-3 py-2 px-3 text-center text-indigo-600 font-medium bg-white duration-150 hover:bg-gray-100 active:bg-gray-200 rounded-lg sm:w-auto sm:mt-0 sm:text-sm">
                         Learn more
                     </a>
                 </div>
             </div>
+            
             <div className=" flex flex-grow justify-center items-center mt-20">
                 {children}
             </div>
