@@ -1,11 +1,14 @@
 "use client"
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { ChangeEventHandler, useState } from "react";
 
 export function Signup() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const route = useRouter();
 
     return <div className="h-screen flex justify-center flex-col">
         <div className="flex justify-center">
@@ -28,11 +31,12 @@ export function Signup() {
                         <button 
                             type="button" 
                             className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                            onClick={() => {
-                                axios.post('http://localhost:3000/api/user' , {
+                            onClick={async () => {
+                                await axios.post('http://localhost:3000/api/user' , {
                                     username: username,
                                     password: password
                                 });
+                                route.push("/");
                             }}>
                                 Sign in
                         </button>
