@@ -22,4 +22,4 @@ app.post('/', (req, res) => {
         message : 'POST method from express',
         data : body
     });
-})
+});
