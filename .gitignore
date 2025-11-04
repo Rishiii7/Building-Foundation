@@ -6,3 +6,7 @@ week4/node_modules
 assignments-master/.DS_Store
 week4/.DS_Store
 week5/.DS_Store
+rate-limit/backend/node_modules
+rate-limit/attack/node_modules
+rate-limit/backend/dist
+rate-limit/attack/dist
